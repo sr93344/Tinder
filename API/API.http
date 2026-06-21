@@ -1,0 +1,13 @@
+@API_HostAddress = http://localhost:5078
+@Members = {{API_HostAddress}}/api/members
+
+GET {{API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+GET {{Members}}
+Accept: application/json
+
+###
+GET {{Members}}/a94782ba-c004-4d65-b552-7eb61ee2a6eb
+Accept: application/json
