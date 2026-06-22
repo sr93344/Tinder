@@ -1,5 +1,7 @@
-@API_HostAddress = https://localhost:5001
-@Members = {{API_HostAddress}}/api/members
+@API_HostAddress = https://localhost:5001/api
+@Members = {{API_HostAddress}}/members
+@Account = {{API_HostAddress}}/account
+@Token = Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJvYjJAYm9iLmNvbSIsIm5hbWVpZCI6IjIwOGVmMzRjLWJiMTAtNDJjOS04ODJiLWYwMzcyMGMxY2I0MSIsIkN1c3RvbUNsYWltIjoiQ3VzdG9tVmFsdWUiLCJuYmYiOjE3ODIxMjQzNzcsImV4cCI6MTc4MjcyOTE3NywiaWF0IjoxNzgyMTI0Mzc3fQ.PJoPANCQSWQQyv4p2_qv8xfrkLS7mq26Ah7ojmaGRbOz0xRAPu41Jh5gJ99uE1sFR2_dBk7d8filzjSXKMXyfg
 
 GET {{API_HostAddress}}/weatherforecast/
 Accept: application/json
@@ -7,7 +9,28 @@ Accept: application/json
 ###
 GET {{Members}}
 Accept: application/json
+Authorization: {{Token}}
 
 ###
 GET {{Members}}/a94782ba-c004-4d65-b552-7eb61ee2a6eb
 Accept: application/json
+Authorization: {{Token}}
+
+###
+POST {{Account}}/register
+content-type: application/json
+
+{
+    "displayName": "nandani",
+    "email": "nandani@gmail.com",
+    "password":"afde"
+}
+
+###
+POST {{Account}}/login
+content-type: application/json
+
+{
+  "email": "bob2@bob.com",
+  "password":"afde"
+}
