@@ -1,58 +1,47 @@
 import { Component, inject, model, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../core/services/account-service';
-import { User } from '../../models/User.model';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { LoginCreds, RegisterCreds } from '../../type/User';
+import { ToastService } from '../../core/services/toast-service';
+import { AsyncPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-nav',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink, RouterLinkActive],
   templateUrl: './nav.html',
   styleUrl: './nav.css',
 })
-export class Nav implements OnInit{
-  protected user: any = signal<User | null>(null);
-  email = model('');
-  password = model('');
-  protected isLoggedIn = signal(false);
-  private accountService = inject(AccountService);
+export class Nav {
+  protected creds : any = {};
+  protected accountService = inject(AccountService);
   private router = inject(Router);
-
-  ngOnInit(): void {
-    this.user.set(this.accountService.loadCurrentUser());
-    if(this.user()!=null){
-      this.isLoggedIn.set(true);
-    }
-    
-  }
+  private toastService = inject(ToastService);
 
   register(){
-    this.accountService.register({email: this.email, password: this.password}).subscribe({
+    this.accountService.register(this.creds as RegisterCreds).subscribe({
         next: (user) => {
-          this.accountService.setCurrentUser(user);
-          this.user.set(this.accountService.loadCurrentUser());
+          this.router.navigateByUrl("/members");
         },
         error: (err) => console.log(err)
     });
   }
 
   login(){
-    this.accountService.login({email: this.email(), password: this.password()}).subscribe({
+    this.accountService.login(this.creds as LoginCreds).subscribe({
         next: (user) => {
-          this.accountService.setCurrentUser(user);
-          window.location.href = '/';
-          // this.router.navigateByUrl("/");
-          //this.user.set(null);
+          this.creds = {};
+          this.toastService.success("Login Successfully");
+          //this.router.navigateByUrl("/members");
         },
-        error: (err) => console.log(err)
+        error: (err) => this.toastService.error(err.error)
     });
   }
 
   logout(){
     this.accountService.logout();
-    // this.router.navigateByUrl("/");
-    window.location.href = '/';
+    this.router.navigateByUrl("/");
   }
 
 }

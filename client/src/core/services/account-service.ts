@@ -1,35 +1,52 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Service } from '@angular/core';
-import { User } from '../../models/User.model';
+import { inject, Service, signal } from '@angular/core';
+import { LoginCreds, RegisterCreds, User } from '../../type/User';
+import { of, tap } from 'rxjs';
 
 @Service()
 export class AccountService {
     private http = inject(HttpClient);
     private baseUrl = 'https://localhost:5001/api/account/';
+    currentUser = signal<User | null>(null);
 
     // ---- Email Login (existing) ----
-    login(values: any) {
-        return this.http.post<User>(this.baseUrl + 'login', values);
+    login(values: LoginCreds) {
+        return this.http.post<User>(this.baseUrl + 'login', values).pipe(
+            tap(user => {
+                if(user) {
+                    this.setCurrentUser(user);
+                }
+            })
+        );
     }
 
     // ---- Email Register (existing) ----
-    register(values: any) {
-        return this.http.post<User>(this.baseUrl + 'register', values);
+    register(values: RegisterCreds) {
+        return this.http.post<User>(this.baseUrl + 'register', values).pipe(
+            tap(user => {
+                if(user) {
+                    this.setCurrentUser(user);
+                }
+            })
+        );
     }
 
 
     // ---- Shared ----
     setCurrentUser(user: User) {
+        this.currentUser.set(user);
         localStorage.setItem('user', JSON.stringify(user));
     }
 
     logout() {
+        this.currentUser.set(null);
         localStorage.removeItem('user');
     }
 
     loadCurrentUser() {
         const user = localStorage.getItem('user');
         if (!user) return;
-        return JSON.parse(user);
+        this.setCurrentUser(JSON.parse(user));
     }
 }
+

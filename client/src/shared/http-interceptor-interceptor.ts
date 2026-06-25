@@ -4,7 +4,7 @@ import { AccountService } from '../core/services/account-service';
 
 export const httpInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
   var accountService = inject(AccountService);
-  var token = accountService.loadCurrentUser()?.token;
+  var token = accountService.currentUser()?.token;
   const modifiedReq = token 
     ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } }) 
     : req;
