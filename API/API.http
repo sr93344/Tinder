@@ -2,6 +2,7 @@
 @Members = {{API_HostAddress}}/members
 @Account = {{API_HostAddress}}/account
 @Token = Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hbmRhbmlAZ21haWwuY29tIiwibmFtZWlkIjoiYTI3ZWRmODAtMDBjMS00MmRiLThjZDQtN2YzMmI0MDhiNTlmIiwiQ3VzdG9tQ2xhaW0iOiJDdXN0b21WYWx1ZSIsIm5iZiI6MTc4MjEyNDkwMiwiZXhwIjoxNzgyNzI5NzAyLCJpYXQiOjE3ODIxMjQ5MDJ9.B1bHUmYAoovlq4I2z_HEN95AugWIbURAv3FwsZSaQ4jE4oxzpHCA9CR5a8ov5M8IuGvwSXWVeO1Y3vRydGX7Jg
+@Buggy = {{API_HostAddress}}/buggy
 
 GET {{API_HostAddress}}/weatherforecast/
 Accept: application/json
@@ -34,3 +35,7 @@ content-type: application/json
   "email": "nandani@gmail.com",
   "password":"afde"
 }
+
+###
+GET {{Buggy}}/server-error
+content-type: application/json

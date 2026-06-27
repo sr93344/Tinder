@@ -1,8 +1,8 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AccountService } from '../core/services/account-service';
+import { AccountService } from '../services/account-service';
 
-export const httpInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
+export const httpInterceptor: HttpInterceptorFn = (req, next) => {
   var accountService = inject(AccountService);
   var token = accountService.currentUser()?.token;
   const modifiedReq = token 

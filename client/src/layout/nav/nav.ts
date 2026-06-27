@@ -35,7 +35,7 @@ export class Nav {
           this.toastService.success("Login Successfully");
           //this.router.navigateByUrl("/members");
         },
-        error: (err) => this.toastService.error(err.error)
+        error: (err) => this.toastService.error(err.error.errors[0])
     });
   }
 

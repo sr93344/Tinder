@@ -3,8 +3,9 @@ import { provideRouter, withRouterConfig, withViewTransitions } from '@angular/r
 
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { httpInterceptorInterceptor } from '../shared/http-interceptor-interceptor';
+import { httpInterceptor } from '../core/interceptors/http-interceptor';
 import { InitService } from '../core/services/init-service';
+import { errorInterceptor } from '../core/interceptors/error-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +17,7 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions()
     ),
     provideHttpClient(
-      withInterceptors([httpInterceptorInterceptor]) // Registers your middleware globally
+      withInterceptors([httpInterceptor, errorInterceptor]) // Registers your middleware globally
     ),
     provideAppInitializer(() => {
       const initService = inject(InitService);
@@ -28,7 +29,7 @@ export const appConfig: ApplicationConfig = {
           setTimeout(()=>{
             splash.remove();
             resolve();
-          }, 500)
+          }, 200)
         }
       })
        
