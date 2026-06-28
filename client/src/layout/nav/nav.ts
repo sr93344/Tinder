@@ -5,6 +5,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LoginCreds, RegisterCreds } from '../../type/User';
 import { ToastService } from '../../core/services/toast-service';
 import { AsyncPipe } from '@angular/common';
+import { themes } from '../themes';
 
 
 @Component({
@@ -13,11 +14,25 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './nav.html',
   styleUrl: './nav.css',
 })
-export class Nav {
+export class Nav implements OnInit{
   protected creds : any = {};
   protected accountService = inject(AccountService);
+  protected selectedTheme = signal<string>(localStorage.getItem('theme') || 'light');
   private router = inject(Router);
   private toastService = inject(ToastService);
+  protected themes = themes;
+
+  ngOnInit(): void {
+    document.documentElement.setAttribute('data-theme', this.selectedTheme());
+  }
+
+  handleSelectedThemes(theme: string){
+    this.selectedTheme.set(theme);
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+    const elem = document.activeElement as HTMLDivElement;
+    if(elem) elem.blur();
+  }
 
   register(){
     this.accountService.register(this.creds as RegisterCreds).subscribe({

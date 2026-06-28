@@ -1,0 +1,6 @@
+<div class="grid grid-cols-5 gap-6">
+    @for (item of this.members$ | async; track $index) {
+        <app-member-card [member] = "item"/>
+    }
+
+</div>

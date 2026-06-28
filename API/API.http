@@ -13,7 +13,7 @@ Accept: application/json
 Authorization: {{Token}}
 
 ###
-GET {{Members}}/a94782ba-c004-4d65-b552-7eb61ee2a6eb
+GET {{Members}}/lisa-id/photos
 Accept: application/json
 Authorization: {{Token}}
 
