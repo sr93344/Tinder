@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  googleClientId: '[Google_Client_Id].apps.googleusercontent.com'
+  googleClientId: '1075032215830-lfcjoj9875meqthv1vfbpiujb9m9om5m.apps.googleusercontent.com'
 };

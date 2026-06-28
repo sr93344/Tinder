@@ -9,5 +9,8 @@
         public string? AuthProvider { get; set; }      // "local" or "google"
         public byte[]? PasswordHash { get; set; }      // make nullable
         public byte[]? PasswordSalt { get; set; }      // make nullable
+
+        //Navigation Property
+        public Member Member { get; set; } = null!;
     }
 }

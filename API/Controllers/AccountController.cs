@@ -51,13 +51,13 @@ namespace API.Controllers
             if (user.AuthProvider == "google")
                 return BadRequest("This account uses Google login. Please sign in with Google.");
 
-            using var hmac = new HMACSHA512(user.PasswordSalt);
+            using var hmac = new HMACSHA512(user.PasswordSalt!);
 
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
             for(var i=0; i<computedHash.Length; i++)
             {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password.");
+                if (computedHash[i] != user.PasswordHash![i]) return Unauthorized("Invalid Password.");
             }
 
             return user.ToDto(tokenService);

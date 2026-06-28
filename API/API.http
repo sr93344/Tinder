@@ -1,7 +1,7 @@
 @API_HostAddress = https://localhost:5001/api
 @Members = {{API_HostAddress}}/members
 @Account = {{API_HostAddress}}/account
-@Token = Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hbmRhbmlAZ21haWwuY29tIiwibmFtZWlkIjoiYTI3ZWRmODAtMDBjMS00MmRiLThjZDQtN2YzMmI0MDhiNTlmIiwiQ3VzdG9tQ2xhaW0iOiJDdXN0b21WYWx1ZSIsIm5iZiI6MTc4MjEyNDkwMiwiZXhwIjoxNzgyNzI5NzAyLCJpYXQiOjE3ODIxMjQ5MDJ9.B1bHUmYAoovlq4I2z_HEN95AugWIbURAv3FwsZSaQ4jE4oxzpHCA9CR5a8ov5M8IuGvwSXWVeO1Y3vRydGX7Jg
+@Token = Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imxpc2FAdGVzdC5jb20iLCJuYW1laWQiOiJsaXNhLWlkIiwiQ3VzdG9tQ2xhaW0iOiJDdXN0b21WYWx1ZSIsIm5iZiI6MTc4MjY0OTk3NCwiZXhwIjoxNzgzMjU0Nzc0LCJpYXQiOjE3ODI2NDk5NzR9.2-nAUw_mnM0U7KrZfv_VBG6Qc5iDaO5hC7A9zrqWQfasG3Gq9ok0n2b9ewncg1IQo9FRDWTZWSp5unypGRRwEQ
 @Buggy = {{API_HostAddress}}/buggy
 
 GET {{API_HostAddress}}/weatherforecast/
@@ -27,13 +27,13 @@ content-type: application/json
     "password":"afde"
 }
 
-###
+### Login
 POST {{Account}}/login
 content-type: application/json
 
 {
-  "email": "nandani@gmail.com",
-  "password":"afde"
+  "email": "lisa@test.com",
+  "password":"Pa$$w0rd"
 }
 
 ###
