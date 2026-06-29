@@ -17,6 +17,18 @@ GET {{Members}}/lisa-id/photos
 Accept: application/json
 Authorization: {{Token}}
 
+### put
+PUT {{Members}}
+content-type: application/json
+Authorization: {{Token}}
+
+{
+  "displayName": "nandani",
+  "description": null,
+  "city": null,
+  "country": null
+}
+
 ###
 POST {{Account}}/register
 content-type: application/json

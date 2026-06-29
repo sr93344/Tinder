@@ -1,4 +1,4 @@
-import { Component, inject, model, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, model, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../core/services/account-service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -6,6 +6,7 @@ import { LoginCreds, RegisterCreds } from '../../type/User';
 import { ToastService } from '../../core/services/toast-service';
 import { AsyncPipe } from '@angular/common';
 import { themes } from '../themes';
+import { LoadingService } from '../../core/services/loading-service';
 
 
 @Component({
@@ -17,10 +18,17 @@ import { themes } from '../themes';
 export class Nav implements OnInit{
   protected creds : any = {};
   protected accountService = inject(AccountService);
+  protected loadingService = inject(LoadingService);
   protected selectedTheme = signal<string>(localStorage.getItem('theme') || 'light');
   private router = inject(Router);
   private toastService = inject(ToastService);
   protected themes = themes;
+
+  // constructor(){
+  //   effect(() => {
+  //     console.log('Current User:' + this.accountService.currentUser()?.displayName);
+  //   })
+  // }
 
   ngOnInit(): void {
     document.documentElement.setAttribute('data-theme', this.selectedTheme());
@@ -30,8 +38,7 @@ export class Nav implements OnInit{
     this.selectedTheme.set(theme);
     localStorage.setItem('theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
-    const elem = document.activeElement as HTMLDivElement;
-    if(elem) elem.blur();
+    this.close();
   }
 
   register(){
@@ -57,6 +64,11 @@ export class Nav implements OnInit{
   logout(){
     this.accountService.logout();
     this.router.navigateByUrl("/");
+  }
+
+  close(){
+    const elem = document.activeElement as HTMLDivElement;
+    if(elem) elem.blur();
   }
 
 }

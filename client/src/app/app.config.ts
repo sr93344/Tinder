@@ -6,6 +6,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { httpInterceptor } from '../core/interceptors/http-interceptor';
 import { InitService } from '../core/services/init-service';
 import { errorInterceptor } from '../core/interceptors/error-interceptor';
+import { loadingInterceptor } from '../core/interceptors/loading-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,7 +18,7 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions()
     ),
     provideHttpClient(
-      withInterceptors([httpInterceptor, errorInterceptor]) // Registers your middleware globally
+      withInterceptors([httpInterceptor, errorInterceptor, loadingInterceptor]) // Registers your middleware globally
     ),
     provideAppInitializer(() => {
       const initService = inject(InitService);

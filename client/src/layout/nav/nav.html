@@ -12,10 +12,13 @@
         </div>
         @if(accountService.currentUser()){
         <nav class="flex gap-3 my-2 uppercase text-lg text-white">
-            <a routerLink="/members" routerLinkActive="text-accent" [routerLinkActiveOptions]="{exact:true}">Matchs</a>
+            <a routerLink="/members" routerLinkActive="text-accent" [routerLinkActiveOptions]="{exact:true}">Matches</a>
             <a routerLink="/lists" routerLinkActive="text-accent">Lists</a>
             <a routerLink="/messages" routerLinkActive="text-accent">Messages</a>
         </nav>
+        @if(loadingService.loadingRequestCount()>0){
+            <span class="loading loading-ring text-accent"></span>
+        }
         }
         <div class="flex align-middle ml-auto gap-3">
             <div class="dropdown mr-5 dropdown-end">
@@ -41,8 +44,8 @@
                     <img [src]="user?.imageUrl ?? '/user.png'" alt="user avatar" class="w-8 h-8 rounded-full" />
                     <span>{{user?.displayName}}</span>
                 </div>
-                <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                    <li><a>Edit Profile</a></li>
+                <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-sm">
+                    <li><a routerLink="/members/{{user.id}}" (click)="close()">Edit Profile</a></li>
                     <li><a (click)="logout()">Logout</a></li>
                 </ul>
             </div>
