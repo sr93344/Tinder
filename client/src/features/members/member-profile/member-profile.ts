@@ -36,11 +36,12 @@ export class MemberProfile implements OnDestroy {
 
   constructor() {
     effect(() => {
+      var member = this.memberService.member();
       this.editableMember = {
-        displayName: this.memberService.member()?.displayName || '',
-        description: this.memberService.member()?.description || '',
-        city: this.memberService.member()?.city || '',
-        country: this.memberService.member()?.country || '',
+        displayName: member?.displayName || '',
+        description: member?.description || '',
+        city: member?.city || '',
+        country: member?.country || '',
       }
     })
 
