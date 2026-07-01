@@ -1,0 +1,16 @@
+<label class="floating-label">
+  <span>{{ label() }}</span>
+  <input
+    [type]="type()"
+    class="input w-full"
+    [max]="maxDate()"
+    [class.input-success]="control?.valid && control?.touched"
+    [class.input-error]="control?.invalid && control?.touched"
+    [formControl]="control"
+    [placeholder]="label()"
+  />
+
+  @if (errorMessage; as msg) {
+    <span class="text-error text-sm">{{ msg }}</span>
+  }
+</label>

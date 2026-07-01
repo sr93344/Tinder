@@ -18,7 +18,10 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions()
     ),
     provideHttpClient(
-      withInterceptors([httpInterceptor, errorInterceptor, loadingInterceptor]) // Registers your middleware globally
+      withInterceptors([httpInterceptor, 
+        errorInterceptor, 
+        // loadingInterceptor -- disabling for now.
+      ]) // Registers your middleware globally
     ),
     provideAppInitializer(() => {
       const initService = inject(InitService);

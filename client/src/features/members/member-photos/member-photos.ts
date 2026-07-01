@@ -9,7 +9,7 @@ import { CacheService } from '../../../core/services/cache-service';
 import { environment } from '../../../environments/environment';
 import { AccountService } from '../../../core/services/account-service';
 import { User } from '../../../type/User';
-import { StarButton } from "../../../shared/star-button/star-button";
+import { StarButton } from '../../../shared/star-button/star-button';
 import { DeleteButton } from '../../../shared/delete-button/delete-button';
 
 @Component({
@@ -22,7 +22,7 @@ export class MemberPhotos implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private toast = inject(ToastService);
   private cache = inject(CacheService);
-  
+
   protected accountService = inject(AccountService);
   protected memberService = inject(MemberService);
   protected member = signal<Member | undefined>(undefined);
@@ -49,6 +49,9 @@ export class MemberPhotos implements OnInit, OnDestroy {
         this.photos.update(() => [...this.photos(), photo]);
         this.cache.delete(environment.apiUrl + 'members/' + this.member()?.id + '/photos');
         this.memberService.editMode.set(false);
+        if(!this.memberService.member()?.imageUrl){
+          this.setMainLocalPhoto(photo);
+        }
         this.toast.success('Image Uploaded Succesfully');
       },
       error: (err) => {
@@ -58,34 +61,41 @@ export class MemberPhotos implements OnInit, OnDestroy {
     });
   }
 
-  setMainPhoto(photo: Photo){
+  setMainPhoto(photo: Photo) {
     this.memberService.setMainPhoto(photo).subscribe({
       next: () => {
-        const currentUser = this.accountService.currentUser();
-        if(currentUser) currentUser.imageUrl = photo.url;
-        this.accountService.setCurrentUser(currentUser as User);
-        this.memberService.member.update(member => ({
-            ...member,
-          imageUrl: photo.url
-          }) as Member);
-          //deleting stale members list && deleting stale member cache
-        this.cache.delete(environment.apiUrl+'members');
-        this.cache.delete(environment.apiUrl + 'members/' + this.member()?.id);
-      }
-    })
+        this.setMainLocalPhoto(photo);
+      },
+    });
   }
 
-  deletePhoto(photoId: number){
+  deletePhoto(photoId: number) {
     this.memberService.deletePhoto(photoId).subscribe({
       next: () => {
-        this.photos.update(photos => photos.filter(photo => photo.id !== photoId));
+        this.photos.update((photos) => photos.filter((photo) => photo.id !== photoId));
         this.cache.delete(environment.apiUrl + 'members/' + this.member()?.id + '/photos');
         this.toast.success('Photo deleted successfully');
       },
       error: (err) => {
         this.toast.error(err[0]);
-      }
-    })
+      },
+    });
+  }
+
+  private setMainLocalPhoto(photo: Photo) {
+    const currentUser = this.accountService.currentUser();
+    if (currentUser) currentUser.imageUrl = photo.url;
+    this.accountService.setCurrentUser(currentUser as User);
+    this.memberService.member.update(
+      (member) =>
+        ({
+          ...member,
+          imageUrl: photo.url,
+        }) as Member,
+    );
+    //deleting stale members list && deleting stale member cache
+    this.cache.delete(environment.apiUrl + 'members');
+    this.cache.delete(environment.apiUrl + 'members/' + this.member()?.id);
   }
 
   ngOnDestroy(): void {

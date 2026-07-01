@@ -62,7 +62,7 @@ export class MemberProfile implements OnDestroy {
         }
         this.toast.success("Profile updated successfully");
         this.memberService.editMode.set(false);
-        this.memberService.member.set(updatedMember as Member);
+        this.memberService.member.update(() => updatedMember as Member);
         this.editForm?.reset(updatedMember);
       }
     })
